@@ -1,0 +1,26 @@
+{
+  "name": "dronboard",
+  "version": "1.0.0",
+  "description": "Raspberry Pi Zero W remote drone camera recorder control unit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ujweblap/pi-Phoneix.git"
+  },
+  "keywords": [
+    "pi",
+    "camera"
+  ],
+  "author": "ujweblap",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ujweblap/pi-Phoneix/issues"
+  },
+  "homepage": "https://github.com/ujweblap/pi-Phoneix#readme",
+  "dependencies": {
+    "socket.io": "^1.7.3"
+  }
+}
