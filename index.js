@@ -1,29 +1,37 @@
 var app = require('http').createServer(handler);
 var io = require('socket.io')(app);
 var fs = require('fs');
+const spawn = require('child_process').spawn;
+
+var recording = false;
+var videoFile_recording = null;
 
 app.listen(8080);
+console.log('pi-Phoenix running on port 8080');
 
 function handler (req, res) {
 	var req_file = req.url;
+	var req_dir = __dirname + '/view';
 	if (req.url === '/') {
 		req_file = '/index.html';
 	}
-	fs.exists(__dirname + '/view'+req_file, function (exist) {
+	if (req.url.substr(0,7) === '/video/') {
+		req_dir = __dirname;
+	}
+
+	fs.exists(req_dir + req_file, function (exist) {
 		console.log('file '+(exist?'':'NOT')+' exists', req_file);
 		if (!exist) {
-			req_file = '/index.html';
 			res.writeHead(404);
 			return res.end();
 		}
-		fs.readFile(__dirname + '/view' + req_file,
+		fs.readFile(req_dir + req_file,
 			function (err, data)
 			{
 				if (err) {
 					res.writeHead(500);
-					return res.end('Error loading index.html');
+					return res.end('Error loading ' + req_file);
 				}
-
 				res.writeHead(200);
 				res.end(data);
 			}
@@ -31,10 +39,49 @@ function handler (req, res) {
 	});
 }
 
+
 io.on('connection', function (socket) {
 	console.log('Got socket connection');
 	socket.emit('news', { hello: 'world' });
+
+	socket.emit('videos', []);
+
+	socket.on('start_recording', function() {
+		if (recording) {
+			socket.emit('recording_error', 'Recording is already running');
+			console.log('recording_error', 'Recording is already running');
+			return;
+		}
+		recording=true;
+		console.log('Recording started...');
+		recordVideo();
+		io.emit('recording_started');
+	});
+	socket.on('stop_recording', function () {
+		if (!recording) {
+			console.log('NOT FOUND recording');
+			return;
+		}
+		recording = false;
+		console.log('Recording stoped.');
+		io.emit('recording_finished');
+
+		io.emit('converting_started');
+		convertVideo(videoFile_recording, function () {
+			io.emit('converting_finished');
+		});
+	});
 	socket.on('my other event', function (data) {
 		console.log(data);
 	});
 });
+
+function recordVideo() {
+	videoFile_recording = Date.now().toString() + '.h264';
+	console.log('record video:', videoFile_recording, new Date().toISOString().replace(/\ /g, '_'));
+}
+
+function convertVideo(videoFile, cb) {
+	console.log('convert video:', videoFile);
+	setImmediate(cb);
+}
