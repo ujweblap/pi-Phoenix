@@ -5,6 +5,7 @@ const spawn = require('child_process').spawn;
 
 var recording = false;
 var videoFile_recording = null;
+var spawn_recording;
 
 app.listen(8080);
 console.log('pi-Phoenix running on port 8080');
@@ -64,21 +65,38 @@ io.on('connection', function (socket) {
 		}
 		recording = false;
 		console.log('Recording stoped.');
+
+		stopVideo();
 		io.emit('recording_finished');
 
 		io.emit('converting_started');
+
 		convertVideo(videoFile_recording, function () {
 			io.emit('converting_finished');
 		});
-	});
-	socket.on('my other event', function (data) {
-		console.log(data);
 	});
 });
 
 function recordVideo() {
 	videoFile_recording = Date.now().toString() + '.h264';
 	console.log('record video:', videoFile_recording, new Date().toISOString().replace(/\ /g, '_'));
+	spawn_recording = spawn('raspivid', [
+		'-t','0',
+		'-w','1280',
+		'-h','720',
+		'-fps','60',
+		'-b','4800000',
+		'-p','0,0,1280,720',
+		'-o', __dirname+ '/video/' + videoFile_recording
+	]);
+	spawn_recording.stdout.on('end', function () {
+		console.log('recording stoped', videoFile_recording);
+	})
+}
+
+function stopVideo() {
+	console.log('kill spawn process');
+	spawn_recording.kill();
 }
 
 function convertVideo(videoFile, cb) {
