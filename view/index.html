@@ -20,9 +20,9 @@
 	<button ng-click="startRecording()">Start</button>
 	<button ng-click="stopRecording()">Stop</button>
 	
-	<div ng-repeat="src in srcs">
+	<div ng-repeat="src in dron.srcs">
 		<video width="720" controls>
-		  <source ng-src="src" type="video/mp4">
+		  <source ng-src="{{src}}" type="video/mp4">
 		Your browser does not support the video tag.
 		</video>
 	</div>
