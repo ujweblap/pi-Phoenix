@@ -6,13 +6,44 @@
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>DroneBoard</title>
+
+
+	<!--Main CSS-->
+
+
+	<!--Route Style CSS-->
+
+
+</head>
+<body ng-controller="cameraRecorderCtrl">
+
+	<button ng-click="startRecording()">Start</button>
+	<button ng-click="stopRecording()">Stop</button>
+	
+
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="bower_components/angular/angular.min.js"></script>
 	<script src="bower_components/angular-socket-io/socket.min.js"></script>
+
+	<!--BOWER COMPONENTS
+	<script src="bower_components/angular-resource/angular-resource.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
+-->
+
+	<!--Main SCRIPT-->
+	
 	<script src="view.js"></script>
-</head>
-<body ng-controller="dronCtrl">
-	<h1>Hello Dron</h1>
-	<h2>{{dron|json}}</h2>
+
+
+	<!--Components SCRIPT
+	<script src="components/factory/socket.factory.js"></script>
+-->
+
+	<!--Route Controllers SCRIPT
+	<script src="app/camerarecorder/camerarecorder.js"></script>
+	<script src="app/camerarecorder/camerarecorder.controller.js"></script>
+	-->
+
 </body>
 </html>
