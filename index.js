@@ -46,7 +46,14 @@ io.on('connection', function (socket) {
 	console.log('Got socket connection');
 	socket.emit('news', { hello: 'world' });
 
-	socket.emit('videos', []);
+	fs.readdir('video', function (err , list) {
+		list = list.filter(function (a) {
+			return a.indexOf('.mp4')!==-1;
+		}).map(function (a) {
+			return 'video/'+a;
+		});
+		socket.emit('videos', list);
+	});
 
 	socket.on('start_recording', function() {
 		if (recording) {
