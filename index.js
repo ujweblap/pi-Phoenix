@@ -5,6 +5,7 @@ const spawn = require('child_process').spawn;
 
 var recording = false;
 var videoFile_recording = null;
+var videoConverted = null;
 var spawn_recording;
 
 app.listen(8080);
@@ -72,7 +73,7 @@ io.on('connection', function (socket) {
 		io.emit('converting_started');
 
 		convertVideo(videoFile_recording, function () {
-			io.emit('converting_finished');
+			io.emit('converting_finished', 'video/'+videoConverted);
 		});
 	});
 });
@@ -100,6 +101,13 @@ function stopVideo() {
 }
 
 function convertVideo(videoFile, cb) {
+	videoConverted = videoFile.replace('.h264','.mp4');
 	console.log('convert video:', videoFile);
-	setImmediate(cb);
+	var spawn_convert = spawn('MP4Box', [
+		'-add',
+		'video/'+videoFile,
+		'video/'+videoConverted,
+		'-fps','60'
+	]);
+	spawn_convert.stdout.on('end', cb);
 }
