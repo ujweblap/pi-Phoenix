@@ -13,24 +13,22 @@ angular.module('dronApp', [
 
 	function cameraRecorderCtrl($scope, socket) {
 
-		$scope.dron = {};
+		$scope.dron = {
+			srcs: []
+		};
 
 		/*
 		*/
 
 		$scope.startRecording = function(){			
-			socket.emit('start_recording', function (news) {
-				$scope.dron.news = news;
-			});
+			socket.emit('start_recording');
 		}
 		$scope.stopRecording = function(){
-			socket.emit('stop_recording', function (news) {
-				$scope.dron.news = news;
-			});			
+			socket.emit('stop_recording');			
 		}
 
-		socket.on('news', function (news) {
-			$scope.dron.news = news;
+		socket.on('converting_finished', function (newSrc) {
+			$scope.dron.srcs.push(newSrc);
 		});
 
 
