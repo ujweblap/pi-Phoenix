@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ujweblap/pi-Phoneix#readme",
   "dependencies": {
+    "raspicam": "git+https://git@github.com/ujweblap/node-raspicam.git",
     "socket.io": "^1.7.3"
   }
 }

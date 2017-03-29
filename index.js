@@ -46,7 +46,8 @@ io.on('connection', function (socket) {
 	console.log('Got socket connection');
 	socket.emit('news', { hello: 'world' });
 
-	fs.readdir('video', function (err , list) {
+	fs.readdir(__dirname + '/video', function (err , list) {
+		if (err) return socket.emit('error:init:videos', err);
 		list = list.filter(function (a) {
 			return a.indexOf('.mp4')!==-1;
 		}).map(function (a) {

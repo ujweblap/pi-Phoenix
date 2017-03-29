@@ -1,0 +1,181 @@
+{
+	"width": {
+		"type": "Number",
+		"max": 1920,
+		"info": "Integer or String - Set image width (Default is 1920)",
+		"default": 1920
+	},
+	"height": {
+		"type": "Number",
+		"info": "Integer or String - Set image height (Default is 1080)",
+		"max": 1080,
+		"default": 1080
+	},
+	"bitrate": {
+		"type": "Number",
+		"info": "Integer or String - Set bitrate. Use bits per second (e.g. 10MBits/s would be 10000000)"
+	},
+	"timeout": {
+		"type": "Number",
+		"info": "Integer or String - Time (in ms) to capture for. If not specified, set to 5s. Zero to disable",
+		"disabled": 0,
+		"default": 5000
+	},
+	"framerate": {
+		"type": "Number",
+		"info": "Integer or String - Specify the frames per second to record."
+	},
+	"intra": {
+		"type": "Number",
+		"info": "Integer or String - Specify the intra refresh period (key frame rate/GoP size)"
+	},
+	"fullscreen": {
+		"type": "Checkbox",
+		"info": "Fullscreen preview mode"
+	},
+	"preview": {
+		"type": "Preview",
+		"info": "Preview window settings <\"x,y,w,h\">"
+	},
+	"opacity": {
+		"type": "Number",
+		"info": "Preview window opacity (0-255)",
+		"min": 0,
+		"max": 255
+	},
+	"nopreview": {
+		"type": "Checkbox",
+		"info": "Do not display a preview window"
+	},
+	"sharpness": {
+		"type": "Number",
+		"info": "Integer or String - Set image sharpness (-100 to 100)",
+		"min": -100,
+		"max": 100
+	},
+	"contrast": {
+		"type": "Number",
+		"info": "Integer or String - Set image contrast (-100 to 100)",
+		"min": -100,
+		"max": 100
+	},
+	"brightness": {
+		"type": "Number",
+		"info": "Integer or String - Set image brightness (-100 to 100)",
+		"min": -100,
+		"max": 100
+	},
+	"saturation": {
+		"type": "Number",
+		"info": "Integer or String - Set image saturation (-100 to 100)",
+		"min": -100,
+		"max": 100
+	},
+	"ISO": {
+		"type": "Number",
+		"info": "Integer or String - Set capture ISO (maybe 20 - 1600, best range 100 - 800)",
+		"min": 20,
+		"max": 1600
+	},
+	"ev": {
+		"type": "Number",
+		"info": "Integer or String - Set EV compensation"
+	},
+	"exposure": {
+		"type": "Select",
+		"info": "String - Set exposure mode",
+		"options": [
+			"off",
+			"auto",
+			"night",
+			"nightpreview",
+			"backlight",
+			"spotlight",
+			"sports",
+			"snow",
+			"beach",
+			"verylong",
+			"fixedfps",
+			"antishake",
+			"fireworks"
+		],
+		"default": "auto"
+	},
+	"awb": {
+		"type": "Select",
+		"info": "String - Set AWB mode (off,auto,sun,cloud,shade,tungsten,fluorescent,incandescent,flash,horizon)",
+		"options": [
+			"off",
+			"auto",
+			"sun",
+			"cloud",
+			"shade",
+			"tungsten",
+			"fluorescent",
+			"incandescent",
+			"flash",
+			"horizon"
+		],
+		"default": "auto"
+	},
+	"imxfx": {
+		"type": "Select",
+		"info": "String - Set image effect (none,negative,solarise,sketch,denoise,emboss,oilpaint,hatch,gpen,pastel,watercolour,film,blur,saturation,colourswap,washedout,posterise,colourpoint,colourbalance,cartoon)",
+		"options": [
+			"none",
+			"negative",
+			"solarise",
+			"sketch",
+			"denoise",
+			"emboss",
+			"oilpaint",
+			"hatch",
+			"gpen",
+			"pastel",
+			"watercolour",
+			"film",
+			"blur",
+			"saturation",
+			"colourswap",
+			"washedout",
+			"posterise",
+			"colourpoint",
+			"colourbalance",
+			"cartoon"
+		],
+		"default": "none"
+	},
+	"colfx": {
+		"type": "String",
+		"info": "String - Set colour effect (U:V)"
+	},
+	"metering": {
+		"type": "Select",
+		"info": "String - Set metering mode (average,spot,backlit,matrix)",
+		"options": [
+			"average",
+			"spot",
+			"backlit",
+			"matrix"
+		]
+	},
+	"rotation": {
+		"type": "Number",
+		"info": "Integer or String - Set image rotation (0-359)",
+		"min": 0,
+		"max": 359
+	},
+	"vstab": {
+		"type": "Checkbox",
+		"info": "Turn on video stablisation"
+	},
+	"hflip": {
+		"type": "Checkbox",
+		"info": "Set horizontal flip"
+	},
+	"vflip": {
+		"type": "Checkbox",
+		"info": "Set vertical flip"
+	}
+
+}
