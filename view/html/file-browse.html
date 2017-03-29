@@ -1,0 +1,9 @@
+<h2>File browser</h2>
+<div ng-repeat="src in videos.srcs">
+	<video width="720" controls>
+		<source ng-src="{{src}}" type="video/mp4">
+		Your browser does not support the video tag.
+	</video>
+</div>
+
+<button type="button" ng-click="changeRoute('index')">« APP INDEX PAGE</button>

@@ -53,7 +53,7 @@ io.on('connection', function (socket) {
 		}).map(function (a) {
 			return 'video/'+a;
 		});
-		socket.emit('videos', list);
+		socket.emit('init:videos', list);
 	});
 
 	socket.on('start_recording', function() {

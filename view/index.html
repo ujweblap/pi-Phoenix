@@ -15,16 +15,19 @@
 
 
 </head>
-<body ng-controller="cameraRecorderCtrl">
+<body ng-controller="dronAppCtrl">
 
-	<button ng-click="startRecording()">Start</button>
-	<button ng-click="stopRecording()">Stop</button>
-	
-	<div ng-repeat="src in dron.srcs">
-		<video width="720" controls>
-		  <source ng-src="{{src}}" type="video/mp4">
-		Your browser does not support the video tag.
-		</video>
+	<div ng-if="app.route=='index'">
+		<div app-index=""></div>
+	</div>
+	<div ng-if="app.route=='recording'">
+		<div video-recorder=""></div>
+	</div>
+	<div ng-if="app.route=='photo'">
+		<div photo-capture></div>
+	</div>
+	<div ng-if="app.route=='browse'">
+		<div file-browse=""></div>
 	</div>
 
 	<script src="/socket.io/socket.io.js"></script>
