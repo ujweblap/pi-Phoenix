@@ -2,4 +2,23 @@
 <button ng-click="startRecording()">Start</button>
 <button ng-click="stopRecording()">Stop</button>
 
+<div ng-if="app.raspivid_loaded">
+	<div ng-repeat="(key, value) in app.raspivid">
+		<div ng-switch="value.type">
+			<div ng-switch-when="Number">
+				<div type-number="" type-name="key" type-data="value" global-config="app.config"></div>
+			</div>
+			<div ng-switch-when="Checkbox">
+				<div type-checkbox="" type-name="key" type-data="value" global-config="app.config"></div>
+			</div>
+			<div ng-switch-when="Select">
+				<div type-select="" type-name="key" type-data="value" global-config="app.config"></div>
+			</div>
+			<div ng-switch-when="Preview">
+				<div type-preview="" type-name="key" type-data="value" global-config="app.config"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <button type="button" ng-click="changeRoute('index')">« APP INDEX PAGE</button>
