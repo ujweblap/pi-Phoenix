@@ -121,6 +121,10 @@ function dronAppCtrl($scope, $http, socket) {
 		$scope.videos.srcs = videos_src;
 	});
 
+	socket.on('converting_finished', function (newSrc) {
+		$scope.videos.srcs.push(newSrc);
+	});
+
 	$scope.changeRoute = function (route) {
 		$scope.app.route = route;
 	};
@@ -137,10 +141,6 @@ function videoRecorderCtrl($scope, socket) {
 	$scope.stopRecording = function(){
 		socket.emit('stop_recording');
 	};
-
-	socket.on('converting_finished', function (newSrc) {
-		$scope.videos.srcs.push(newSrc);
-	});
 }
 
 function photoCaptureCtrl($scope, socket) {
