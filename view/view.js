@@ -40,6 +40,54 @@ angular.module('dronApp', [
 	};
 })
 
+.directive('typeNumber', function () {
+	return {
+		resolve: "A",
+		scope: {
+			"typeName": '=',
+			"typeData": '=',
+			"globalConfig": '='
+		},
+		templateUrl: "html/types/Number.html"
+	}
+})
+
+.directive('typeCheckbox', function () {
+	return {
+		resolve: "A",
+		scope: {
+			"typeName": '=',
+			"typeData": '=',
+			"globalConfig": '='
+		},
+		templateUrl: "html/types/Checkbox.html"
+	}
+})
+
+.directive('typeSelect', function () {
+	return {
+		resolve: "A",
+		scope: {
+			"typeName": '=',
+			"typeData": '=',
+			"globalConfig": '='
+		},
+		templateUrl: "html/types/Select.html"
+	}
+})
+
+.directive('typePreview', function () {
+	return {
+		resolve: "A",
+		scope: {
+			"typeName": '=',
+			"typeData": '=',
+			"globalConfig": '='
+		},
+		templateUrl: "html/types/Preview.html"
+	}
+})
+
 .controller('dronAppCtrl', dronAppCtrl);
 
 /* CONTROLLERS */
@@ -49,7 +97,12 @@ function dronAppCtrl($scope, $http, socket) {
 		route: 'index',
 		recording: false,
 		live_preview: false,
-		show_preview: false
+		show_preview: false,
+		config: {
+			width: 1280,
+			height: 720,
+			framerate: 60
+		}
 	};
 	$scope.videos = {
 		srcs: []
