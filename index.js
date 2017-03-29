@@ -96,6 +96,7 @@ function recordVideo() {
 		'-fps','60',
 		'-b','4800000',
 		'-p','0,0,1280,720',
+		'-vs',
 		'-o', __dirname+ '/video/' + videoFile_recording
 	]);
 	spawn_recording.stdout.on('end', function () {
@@ -113,8 +114,8 @@ function convertVideo(videoFile, cb) {
 	console.log('convert video:', videoFile);
 	var spawn_convert = spawn('MP4Box', [
 		'-add',
-		'video/'+videoFile,
-		'video/'+videoConverted,
+		__dirname+'/video/'+videoFile,
+		__dirname+'/video/'+videoConverted,
 		'-fps','60'
 	]);
 	spawn_convert.stdout.on('end', cb);
