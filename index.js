@@ -50,26 +50,23 @@ io.on('connection', function (socket) {
 	fs.readdir(__dirname + '/video', function (err , list) {
 		if (err) return socket.emit('error:init:videos', err);
 		var h264_list = list.filter(function (a) {
-			return a.indexOf('.mp4')!==-1;
-		}).map(function (a) {
-			return 'video/'+a;
+			return a.indexOf('.h264')!==-1;
 		});
 		var mp4_list = list.filter(function (a) {
 			return a.indexOf('.mp4')!==-1;
-		}).map(function (a) {
-			return 'video/'+a;
 		});
 		var h264_convert_list = h264_list.filter(function (a) {
-			return mp4_list.indexOf(a.replace(".h264",".mp4"))!==-1;
-		}).map(function (a) {
+			return mp4_list.indexOf(a.replace(".h264",".mp4"))===-1;
+		});
+		var frontend_files = mp4_list.map(function (a) {
 			return 'video/'+a;
 		});
-		async.series(h264_convert_list, function(convert_filename, cb){
+		async.mapSeries(h264_convert_list, function(convert_filename, cb){
 			convertVideo(convert_filename, cb);
 		}, function() {
 			console.log(h264_convert_list, "converted", h264_convert_list.length);
 		});
-		socket.emit('init:videos', mp4_list);
+		socket.emit('init:videos', frontend_files);
 	});
 
 	socket.on('start_recording', function() {
