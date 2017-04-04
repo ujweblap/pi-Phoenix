@@ -1,7 +1,12 @@
 <h2>File browser</h2>
 <div ng-repeat="src in videos.srcs">
+	<div ng-click="playVideo(src)" class="file-path">{{src}}</div>
+</div>
+
+<div ng-if="app.play" ng-click="closeVideo()">Close video [X]</div>
+<div ng-if="app.play">
 	<video width="720" controls>
-		<source ng-src="{{src}}" type="video/mp4">
+		<source ng-src="{{app.play_src}}" type="video/mp4">
 		Your browser does not support the video tag.
 	</video>
 </div>
