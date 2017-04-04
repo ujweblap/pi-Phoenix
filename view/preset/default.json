@@ -1,0 +1,9 @@
+{
+	"width": 1280,
+	"height": 720,
+	"framerate": 60,
+	"vstab": true,
+	"fullscreen": true,
+	"bitrate": 8000000,
+	"timeout": 0
+}

@@ -47,6 +47,7 @@ io.on('connection', function (socket) {
 	console.log('Got socket connection');
 	socket.emit('news', { hello: 'world' });
 
+	//init:videos socket event
 	fs.readdir(__dirname + '/video', function (err , list) {
 		if (err) return socket.emit('error:init:videos', err);
 		var h264_list = list.filter(function (a) {
@@ -69,7 +70,18 @@ io.on('connection', function (socket) {
 		socket.emit('init:videos', frontend_files);
 	});
 
-	socket.on('start_recording', function() {
+	//init:presets socket event
+	fs.readdir(__dirname + '/view/preset', function (err , list_presets) {
+		if (err) return socket.emit('error:init:presets', err);
+		list_presets = list_presets.filter(function (a) {
+			return a.indexOf('.json')!==-1;
+		}).map(function (a) {
+			return 'preset/'+a;
+		});
+		socket.emit('init:presets', list_presets);
+	});
+
+	socket.on('start_recording', function(record_options) {
 		if (recording) {
 			socket.emit('recording_error', 'Recording is already running');
 			console.log('recording_error', 'Recording is already running');
@@ -77,7 +89,7 @@ io.on('connection', function (socket) {
 		}
 		recording=true;
 		console.log('Recording started...');
-		recordVideo();
+		recordVideo(record_options);
 		io.emit('recording_started');
 	});
 	socket.on('stop_recording', function () {
@@ -99,19 +111,13 @@ io.on('connection', function (socket) {
 	});
 });
 
-function recordVideo() {
+function recordVideo(record_options) {
 	videoFile_recording = Date.now().toString() + '.h264';
+	record_options.push('--output');
+	record_options.push(__dirname+ '/video/' + videoFile_recording);
 	console.log('record video:', videoFile_recording, new Date().toISOString().replace(/\ /g, '_'));
-	spawn_recording = spawn('raspivid', [
-		'-t','0',
-		'-w','1280',
-		'-h','720',
-		'-fps','60',
-		'-b','4800000',
-		'-p','0,0,1280,720',
-		'-vs',
-		'-o', __dirname+ '/video/' + videoFile_recording
-	]);
+	console.log('record options: ', record_options);
+	spawn_recording = spawn('raspivid', record_options);
 	spawn_recording.stdout.on('end', function () {
 		console.log('recording stoped', videoFile_recording);
 	})
