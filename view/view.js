@@ -148,5 +148,11 @@ function photoCaptureCtrl($scope, socket) {
 }
 
 function fileBrowseCtrl($scope, socket) {
-
+	$scope.playVideo = function(src) {
+		$scope.app.play_src = src;
+		$scope.app.play = true;
+	};
+	$scope.closeVideo = function () {
+		$scope.app.play = false;
+	};
 }
