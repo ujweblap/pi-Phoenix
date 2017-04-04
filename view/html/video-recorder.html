@@ -19,6 +19,14 @@
 			</div>
 		</div>
 	</div>
+
+	<select ng-model="app.selected_preset">
+		<option ng-repeat="preset in app.presets" ng-value="preset">{{getPresetName(preset)}}</option>
+	</select>
+	selected: {{app.selected_preset}}
+	<button type="button" ng-click="loadPreset(app.selected_preset)"></button>
+
+	<input type="text" ng-model="app.preset.name" placeholder="Video preset name..."> <button type="button" ng-disabled="app.preset.saved">Save video preset</button>
 </div>
 
 <button type="button" ng-click="changeRoute('index')">« APP INDEX PAGE</button>

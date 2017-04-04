@@ -1,2 +1,5 @@
-select: {{val}}
-conf: {{conf|json}}
+{{typeName}}: <select ng-model="globalConfig[typeName]">
+	<option ng-value="false">--SELECT--</option>
+	<option ng-repeat="op in typeData.options" ng-value="op">{{op}}</option>
+</select>
+info: {{typeData['info']}}

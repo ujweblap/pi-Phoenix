@@ -72,6 +72,7 @@ angular.module('dronApp', [
 			"typeData": '=',
 			"globalConfig": '='
 		},
+		controller: typeSelectCtrl,
 		templateUrl: "html/types/Select.html"
 	}
 })
@@ -121,6 +122,19 @@ function dronAppCtrl($scope, $http, socket) {
 		$scope.videos.srcs = videos_src;
 	});
 
+	socket.on('init:presets', function (presets) {
+		console.log(presets);
+		$scope.app.presets = presets;
+	});
+
+	socket.on('error:init:videos', function (err) {
+		console.log("ERROR loading videos", err);
+	});
+
+	socket.on('error:init:presets', function (err) {
+		console.log("ERROR loading presets", err);
+	});
+
 	socket.on('converting_finished', function (newSrc) {
 		$scope.videos.srcs.push(newSrc);
 	});
@@ -128,19 +142,50 @@ function dronAppCtrl($scope, $http, socket) {
 	$scope.changeRoute = function (route) {
 		$scope.app.route = route;
 	};
+
+	$scope.recordingConfig = function() {
+		var conf = [];
+		for (config_key in $scope.app.config) {
+			if ($scope.app.config.hasOwnProperty(config_key) && $scope.app.config[config_key] !== false && $scope.app.config[config_key] !== "" && $scope.app.config[config_key] !== null) {
+				conf.push('--'+config_key);
+				if ($scope.app.raspivid[config_key]["type"] === "Number" || $scope.app.raspivid[config_key]["type"] === "Select" || $scope.app.raspivid[config_key]["type"] === "Preview") {
+					conf.push($scope.app.config[config_key]);
+				}
+			}
+		}
+		return conf;
+	}
 }
 
 function appIndexCtrl($scope) {
 
 }
 
-function videoRecorderCtrl($scope, socket) {
+function videoRecorderCtrl($scope, socket, $http) {
+	$scope.app.selected_preset = 'preset/default.json';
+	$scope.app.preset = {};
 	$scope.startRecording = function(){
-		socket.emit('start_recording');
+		$scope.app.recording = true;
+		socket.emit('start_recording', $scope.recordingConfig());
 	};
 	$scope.stopRecording = function(){
+		$scope.app.recording = false;
 		socket.emit('stop_recording');
 	};
+	$scope.getPresetName = function(preset_file) {
+		return preset_file.replace('.json', '').replace('preset/', '');
+	};
+	$scope.loadPreset = function(preset_file) {
+		$http.get(preset_file).then( function (preset) {
+			$scope.app.preset = {
+				saved: true,
+				name: $scope.getPresetName(preset_file)
+			};
+			$scope.app.config = preset.data;
+		});
+	};
+
+	$scope.loadPreset($scope.app.selected_preset);
 }
 
 function photoCaptureCtrl($scope, socket) {
@@ -155,4 +200,10 @@ function fileBrowseCtrl($scope, socket) {
 	$scope.closeVideo = function () {
 		$scope.app.play = false;
 	};
+}
+
+function typeSelectCtrl($scope) {
+	if (!$scope.globalConfig.hasOwnProperty($scope.typeName)) {
+		$scope.globalConfig[$scope.typeName] = false;
+	}
 }
