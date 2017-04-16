@@ -1,5 +1,7 @@
+const WebStreamerServer = require('./lib/raspivid');
 var app = require('http').createServer(handler);
 var io = require('socket.io')(app);
+var silence = new WebStreamerServer(app);
 var fs = require('fs');
 var async = require('async');
 const spawn = require('child_process').spawn;

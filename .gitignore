@@ -1,5 +1,9 @@
 .idea
 view/bower_components
+!view/
+!view/vendor
+!view/vendor/dist/*
+
 
 # Logs
 logs
